@@ -6,12 +6,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("hello")
+@RequestMapping("/hello")
 public class HelloController {
 
 	@GetMapping
 	public String printHello(ModelMap model) {
-		model.addAttribute("message", "Hello Spring MVC Framework with Hibernate!");
+		model.addAttribute("message", "Hello Spring MVC Framework!");
 
 		return "hello";
 	}
