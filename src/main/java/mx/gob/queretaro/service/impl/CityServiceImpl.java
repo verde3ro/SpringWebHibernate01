@@ -7,10 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import mx.gob.queretaro.bean.CityBean;
 import mx.gob.queretaro.exception.InternalException;
 import mx.gob.queretaro.model.City;
-import mx.gob.queretaro.model.Country;
 import mx.gob.queretaro.repository.ICityRepository;
 import mx.gob.queretaro.request.CityRequest;
 import mx.gob.queretaro.service.ICityService;
@@ -40,7 +38,7 @@ public class CityServiceImpl implements ICityService {
 	}
 
 	@Override
-	public CityBean obtenerPorId(long id) throws InternalException {
+	public City obtenerPorId(long id) throws InternalException {
 		if (id > 0L) {
 			try {
 				return cityRepository.obtenerPorId(id);
@@ -60,16 +58,16 @@ public class CityServiceImpl implements ICityService {
 	@Transactional(rollbackFor = Exception.class)
 	public void guardar(CityRequest cityRequest) throws InternalException {
 		try {
-			City city = new City();
+			/*City city = new City();
 
 			city.setCity(cityRequest.getCity().trim());
 			city.setCountry(new Country(cityRequest.getCountryId()));
 			city.setLastUpdate(cityRequest.getLastUpdate());
 			city.setStatus("AC");
 
-			cityRepository.guardar(city);
-		} catch (InternalException ex) {
-			throw ex;
+			cityRepository.guardar(city);*/
+			/*} catch (InternalException ex) {
+			throw ex;*/
 		} catch (Exception ex) {
 			log.error("Ocurrio un eror al guardar la ciudad", ex);
 			throw new InternalException("Ocurrio un eror al guardar la ciudad");

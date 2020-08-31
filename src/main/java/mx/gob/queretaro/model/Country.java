@@ -14,6 +14,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name="country")
 public class Country implements Serializable {
@@ -28,6 +30,7 @@ public class Country implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="last_update", nullable=false)
 	private Date lastUpdate;
+	@JsonIgnoreProperties(value = {"country", "hibernateLazyInitializer", "handler"}, allowSetters = true)
 	@OneToMany(mappedBy="country")
 	private List<City> cities;
 

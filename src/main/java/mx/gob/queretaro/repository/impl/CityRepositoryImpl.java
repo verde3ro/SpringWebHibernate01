@@ -2,33 +2,45 @@ package mx.gob.queretaro.repository.impl;
 
 import java.util.List;
 
+import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.stereotype.Repository;
 
-import mx.gob.queretaro.bean.CityBean;
 import mx.gob.queretaro.exception.InternalException;
-import mx.gob.queretaro.mapper.CityRowMapper;
 import mx.gob.queretaro.model.City;
 import mx.gob.queretaro.repository.ICityRepository;
 
 @Repository
 public class CityRepositoryImpl implements ICityRepository {
 
-	private final JdbcOperations jdbc;
+	private final SessionFactory sessionFactory;
 	private final Logger log = Logger.getLogger(getClass().getName());
 
 	@Autowired
-	public CityRepositoryImpl(JdbcOperations jdbc) {
-		this.jdbc = jdbc;
+	public CityRepositoryImpl(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<City> obtenerTodos() throws InternalException {
 		try {
-			return jdbc.query("SELECT city_id, city FROM city",
-					(rs, rowNum) -> new CityBean(rs.getLong("city_id"), rs.getString("city")));
+			Session session = sessionFactory.getCurrentSession();
+			CriteriaBuilder cb = session.getCriteriaBuilder();
+			CriteriaQuery<City> cq = cb.createQuery(City.class);
+			Root <City> root = cq.from(City.class);
+			cq.select(root);
+			// cq.multiselect(root.get("cityId"), root.get("city"), root.get("lastUpdate"));
+			Query query = session.createQuery(cq);
+
+			return query.getResultList();
 		} catch (Exception ex) {
 			log.error("Ocurrio un eror al obtener las ciudades", ex);
 			throw new InternalException("Ocurrio un eror al obtener las ciudades");
@@ -38,7 +50,7 @@ public class CityRepositoryImpl implements ICityRepository {
 	@Override
 	public City obtenerPorId(long id) throws InternalException {
 		try {
-			return jdbc.queryForObject("select * from city where city_id = ?", new CityRowMapper(), id);
+			return null;
 		} catch (Exception ex) {
 			log.error(String.format("Ocurrio un eror al obtener la ciudad con el %d", id), ex);
 			throw new InternalException(String.format("Ocurrio un eror al obtener la ciudad con el %d", id));
@@ -48,10 +60,7 @@ public class CityRepositoryImpl implements ICityRepository {
 	@Override
 	public void guardar(City city) throws InternalException {
 		try {
-			String sql = "insert into city (city, country_id, last_update, status) VALUES (?, ?, ?, ?)";
 
-			jdbc.update(sql, city.getCity(), city.getCountry().getCountryId(), city.getLastUpdate(),
-					city.getStatus());
 		} catch (Exception ex) {
 			log.error("Ocurrio un eror al guardar la ciudad", ex);
 			throw new InternalException("Ocurrio un eror al guardar la ciudad");
