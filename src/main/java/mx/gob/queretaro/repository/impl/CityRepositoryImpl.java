@@ -37,7 +37,7 @@ public class CityRepositoryImpl implements ICityRepository {
 			CriteriaQuery<City> cq = cb.createQuery(City.class);
 			Root <City> root = cq.from(City.class);
 			cq.select(root);
-			// cq.multiselect(root.get("cityId"), root.get("city"), root.get("lastUpdate"));
+			//cq.multiselect(root.get("cityId"), root.get("city"), root.get("lastUpdate"));
 			Query query = session.createQuery(cq);
 
 			return query.getResultList();

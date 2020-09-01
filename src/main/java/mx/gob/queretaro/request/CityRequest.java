@@ -49,6 +49,7 @@ public class CityRequest implements Serializable {
 	}
 
 	public void setLastUpdate(Date lastUpdate) {
+		System.out.println("Fecha = " + lastUpdate);
 		this.lastUpdate = lastUpdate;
 	}
 
