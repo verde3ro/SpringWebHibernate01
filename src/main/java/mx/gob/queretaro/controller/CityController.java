@@ -1,5 +1,7 @@
 package mx.gob.queretaro.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import mx.gob.queretaro.exception.InternalException;
+import mx.gob.queretaro.model.Country;
 import mx.gob.queretaro.request.CityRequest;
 import mx.gob.queretaro.service.ICityService;
 import mx.gob.queretaro.service.ICountryService;
@@ -29,7 +32,9 @@ public class CityController {
 	@GetMapping("crear")
 	public String create(ModelMap model) {
 		try {
-			model.addAttribute("countries", countryService.obtenerTodos());
+			List<Country> countries = countryService.obtenerTodos();
+
+			model.addAttribute("countries", countries);
 		} catch (InternalException ex) {
 			model.addAttribute("error", ex.getMessage());
 		}
@@ -48,7 +53,7 @@ public class CityController {
 
 				for (FieldError error : result.getFieldErrors()) {
 					String campo = error.getField().trim() + " " + error.getDefaultMessage().trim().
-										replace("null", "nulo") + ".";
+							replace("null", "nulo") + ".";
 
 					if (mensaje.toString().trim().isEmpty()) {
 						mensaje.append(campo);

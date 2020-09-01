@@ -9,7 +9,7 @@ public interface ICityRepository {
 
 	List<City> obtenerTodos() throws InternalException;
 
-	City obtenerPorId(long id) throws InternalException;
+	City obtenerPorId(short id) throws InternalException;
 
 	void guardar(City city) throws InternalException;
 

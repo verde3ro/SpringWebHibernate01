@@ -52,7 +52,7 @@ public class CityRest {
 
 	@GetMapping(path="obtenerPorId/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public Map<String, Object> obtenerPorId(
-			@PathVariable("id") long id
+			@PathVariable("id") short id
 			) {
 		Map<String, Object> resultado = new HashMap<>();
 
@@ -69,7 +69,7 @@ public class CityRest {
 
 	@GetMapping(path="obtenerPorId", produces = MediaType.APPLICATION_JSON_VALUE)
 	public Map<String, Object> obtenerPorIdRequestParm(
-			@RequestParam("id") long id,
+			@RequestParam("id") short id,
 			@RequestParam("ejemplo") String ejemplo
 			) {
 		Map<String, Object> resultado = new HashMap<>();

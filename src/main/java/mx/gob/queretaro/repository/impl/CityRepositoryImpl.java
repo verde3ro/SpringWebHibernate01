@@ -48,9 +48,11 @@ public class CityRepositoryImpl implements ICityRepository {
 	}
 
 	@Override
-	public City obtenerPorId(long id) throws InternalException {
+	public City obtenerPorId(short id) throws InternalException {
 		try {
-			return null;
+			Session session = sessionFactory.getCurrentSession();
+
+			return session.find(City.class, id);
 		} catch (Exception ex) {
 			log.error(String.format("Ocurrio un eror al obtener la ciudad con el %d", id), ex);
 			throw new InternalException(String.format("Ocurrio un eror al obtener la ciudad con el %d", id));

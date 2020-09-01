@@ -9,15 +9,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 @Entity
 @Table(name="country")
+@NamedQuery(name="Country.findAll", query="SELECT c FROM Country c ORDER BY c.countryId ASC")
 public class Country implements Serializable {
 
 	private static final long serialVersionUID = 6504621010333628987L;
@@ -30,15 +30,11 @@ public class Country implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="last_update", nullable=false)
 	private Date lastUpdate;
-	@JsonIgnoreProperties(value = {"country", "hibernateLazyInitializer", "handler"}, allowSetters = true)
+	//@JsonIgnoreProperties(value = {"country", "hibernateLazyInitializer", "handler"}, allowSetters = true)
 	@OneToMany(mappedBy="country")
 	private List<City> cities;
 
 	public Country() {
-	}
-
-	public Country(short countryId) {
-		this.countryId = countryId;
 	}
 
 	public Country(short countryId, String country) {
@@ -46,6 +42,9 @@ public class Country implements Serializable {
 		this.country = country;
 	}
 
+	public Country(short countryId) {
+		this.countryId = countryId;
+	}
 
 	public Country(short countryId, String country, Date lastUpdate) {
 		this.countryId = countryId;

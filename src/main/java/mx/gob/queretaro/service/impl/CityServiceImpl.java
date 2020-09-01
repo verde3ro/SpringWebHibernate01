@@ -38,7 +38,7 @@ public class CityServiceImpl implements ICityService {
 	}
 
 	@Override
-	public City obtenerPorId(long id) throws InternalException {
+	public City obtenerPorId(short id) throws InternalException {
 		if (id > 0L) {
 			try {
 				return cityRepository.obtenerPorId(id);

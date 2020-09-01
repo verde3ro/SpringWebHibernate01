@@ -10,7 +10,7 @@ public interface ICityService {
 
 	List<City> obtenerTodos() throws InternalException;
 
-	City obtenerPorId(long id) throws InternalException;
+	City obtenerPorId(short id) throws InternalException;
 
 	void guardar(CityRequest cityRequest) throws InternalException;
 
